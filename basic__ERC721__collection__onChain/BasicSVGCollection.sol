@@ -44,15 +44,14 @@ contract Basic_SVG_Collection_On_Chain is ERC721URIStorage {
     ) public {
         require(owner == msg.sender); // Only the owner can mint the NFT
         _safeMint(msg.sender, _tokenIdCounter.current());
+        attributes[_tokenIdCounter.current()] = Attributes(_name, _description);
 
         // Creating the TokenURI
-        string memory imageURI = getImageURI(_svg);
-        string memory tokenURI = getTokenURI(
+        string memory imageURI = _getImageURI(_svg);
+        string memory tokenURI = _getTokenURI(
             _tokenIdCounter.current(),
             imageURI
         );
-        attributes[_tokenIdCounter.current()] = Attributes(_name, _description);
-
         _setTokenURI(_tokenIdCounter.current(), tokenURI);
         emit TokenMinted(_tokenIdCounter.current(), tokenURI);
         _tokenIdCounter.increment();
@@ -61,8 +60,8 @@ contract Basic_SVG_Collection_On_Chain is ERC721URIStorage {
     /**
      * @dev Given one SVG, encodes it using Base64 and obtains the Token URI
      */
-    function getImageURI(string memory _svg)
-        public
+    function _getImageURI(string memory _svg)
+        internal
         pure
         returns (string memory)
     {
@@ -76,8 +75,8 @@ contract Basic_SVG_Collection_On_Chain is ERC721URIStorage {
     /**
      * @dev Given an image URI, encodes it to Base64 and obtains the token URI
      */
-    function getTokenURI(uint256 _tokenId, string memory _svgURI)
-        public
+    function _getTokenURI(uint256 _tokenId, string memory _svgURI)
+        internal
         view
         returns (string memory)
     {
@@ -90,14 +89,11 @@ contract Basic_SVG_Collection_On_Chain is ERC721URIStorage {
                             abi.encodePacked(
                                 '{"name":"',
                                 attributes[_tokenId].name,
-                                '",',
-                                '"description": "',
+                                '","description":"',
                                 attributes[_tokenId].description,
-                                '",',
-                                '"attributes": "",',
-                                '"image":"',
+                                '","attributes":"","image":"',
                                 _svgURI,
-                                '"}'
+                                '"}"'
                             )
                         )
                     )
@@ -121,11 +117,6 @@ contract Basic_SVG_Collection_On_Chain is ERC721URIStorage {
      */
     function _burn(uint256 tokenId) internal override(ERC721URIStorage) {
         super._burn(tokenId);
-    }
-
-    function burnToken(uint256 _tokenId) public {
-        require(owner == msg.sender);
-        _burn(_tokenId);
     }
 
     function supportsInterface(bytes4 interfaceId)
