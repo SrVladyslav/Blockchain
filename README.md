@@ -7,5 +7,6 @@ Repository with different coding proves
 2. [Implementation](https://github.com/SrVladyslav/Blockchain/blob/main/2_ERC721_onChain_collection/ImageCollectionOnChain.sol) of a basic `ERC721URIStorage` collection from [OpenZeppelin](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC721/extensions/ERC721URIStorage.sol) with on-chain Image uploading (`JPEG, JPG, PNG, SVG`) from Image URI. This implementation has the Max Size problem, future code to handle this is comming soon. 
 3. TO DO
 4. [Implementation](https://github.com/SrVladyslav/Blockchain/blob/main/4_call_cotract_from_contract/CallContracts.sol) of a basic POC Contract to call the functions from another test one. Based on [Solidity By Example](https://solidity-by-example.org/calling-contract/).
+5. Basic [Contract Factory](https://github.com/SrVladyslav/Blockchain/blob/main/5_contract_factory/ContractFactory.sol) implementation to create a new contract with his own owner.
 
 > Coming soon ...
